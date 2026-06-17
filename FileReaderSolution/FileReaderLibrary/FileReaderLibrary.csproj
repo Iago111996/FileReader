@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>1.0.0</Version>
+    <Authors>Iago Pinto Pereira</Authors>
+    <Description>A simple, extensible file reading library with built-in validation support.</Description>
+    <PackageTags>file;reader;validation</PackageTags>
+    <RepositoryUrl>https://github.com/Iago111996/FileReader</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>

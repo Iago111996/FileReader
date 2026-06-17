@@ -1,0 +1,33 @@
+# Tests (not ready to publish)
+FileReaderSolution/FileReaderLibrary.Tests/
+
+# Build outputs
+bin/
+obj/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# .NET
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini

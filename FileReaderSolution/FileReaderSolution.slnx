@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="FileReaderApp/FileReaderApp.csproj" />
+  <Project Path="FileReaderLibrary/FileReaderLibrary.csproj" />
+  <Project Path="FileReaderLibrary.Tests/FileReaderLibrary.Tests.csproj" />
+</Solution>
