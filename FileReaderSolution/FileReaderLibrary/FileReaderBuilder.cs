@@ -16,7 +16,7 @@ public class FileReaderBuilder
     private ISecurityContext? _securityContext;
     private string _role = string.Empty;
     private EFileType _fileType = EFileType.Text;
-    private static readonly HashSet<EFileType> EncryptionSupportedTypes = new() { EFileType.Text };
+    private static readonly HashSet<EFileType> EncryptionSupportedTypes = new() { EFileType.Text, EFileType.Xml };
     private static readonly HashSet<EFileType> SecuritySupportedTypes = new() { EFileType.Xml };
 
     /// <summary>
@@ -71,19 +71,27 @@ public class FileReaderBuilder
     /// </summary>
     public IFileReader Build()
     {
-        IFileReader reader = _fileType switch
-        {
-            EFileType.Text => new TextFileReader(),
-            EFileType.Xml => new XmlFileReader(),
-            _ => throw new NotSupportedException($"File type {_fileType} is not supported.")
-        };
+        IFileReader reader;
 
-        if (_encryptionAlgorithm is not null)
+        if (_fileType == EFileType.Xml && _encryptionAlgorithm is not null)
         {
-            if (!EncryptionSupportedTypes.Contains(_fileType))
-                throw new NotSupportedException(
-                    $"Encrypted reading is not supported for '{_fileType}' files.");
-            reader = new EncryptedFileReader(reader, _encryptionAlgorithm);
+            reader = new XmlParserReader(
+                new EncryptedFileReader(
+                    new TextFileReader(),         
+                    _encryptionAlgorithm));       
+                                                  
+        }
+        else
+        {
+            reader = _fileType switch
+            {
+                EFileType.Text => new TextFileReader(),
+                EFileType.Xml => new XmlFileReader(),
+                _ => throw new NotSupportedException($"File type {_fileType} is not supported.")
+            };
+
+            if (_encryptionAlgorithm is not null)
+                reader = new EncryptedFileReader(reader, _encryptionAlgorithm);
         }
 
         if (_securityContext is not null)
