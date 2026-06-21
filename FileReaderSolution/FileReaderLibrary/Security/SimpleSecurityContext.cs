@@ -13,8 +13,8 @@ public class SimpleSecurityContext : ISecurityContext
     private readonly Dictionary<string, List<string>> _rolePermissions = new()
     {
         { "Admin", new List<string> { "*" } }, 
-        { "Manager", new List<string> { "relatorio.xml", "vendas.xml", "relatorio.txt", "vendas.txt" } }, 
-        { "User", new List<string> { "perfil.xml", "perfil.txt" } }
+        { "Manager", new List<string> { "relatorio.xml", "vendas.xml", "relatorio.txt", "vendas.txt", "relatorio.json", "vendas.json" } }, 
+        { "User", new List<string> { "perfil.xml", "perfil.txt", "perfil.json" } }
     };
 
     /// <summary>

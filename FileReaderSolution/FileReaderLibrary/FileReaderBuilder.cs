@@ -16,7 +16,7 @@ public class FileReaderBuilder
     private ISecurityContext? _securityContext;
     private string _role = string.Empty;
     private EFileType _fileType = EFileType.Text;
-    private static readonly HashSet<EFileType> SecuritySupportedTypes = new() { EFileType.Text, EFileType.Xml };
+    private static readonly HashSet<EFileType> SecuritySupportedTypes = new() { EFileType.Text, EFileType.Xml, EFileType.Json };
 
     /// <summary>
     /// Adds an extra <see cref="IFileValidator"/> to run in addition to the default validators.
