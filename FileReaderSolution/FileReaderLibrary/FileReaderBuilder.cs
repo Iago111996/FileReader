@@ -86,6 +86,7 @@ public class FileReaderBuilder
             {
                 EFileType.Text => new TextFileReader(),
                 EFileType.Xml => new XmlFileReader(),
+                EFileType.Json => new JsonFileReader(),
                 _ => throw new NotSupportedException($"File type {_fileType} is not supported.")
             };
 

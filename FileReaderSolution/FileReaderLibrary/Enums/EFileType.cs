@@ -12,5 +12,9 @@ public enum EFileType
     /// <summary>
     /// Represents an XML file.
     /// </summary>
-    Xml
+    Xml,
+    /// <summary>
+    /// Represents a JSON file.
+    /// </summary>
+    Json
 }
