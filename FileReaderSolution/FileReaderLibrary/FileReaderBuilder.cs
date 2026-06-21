@@ -3,7 +3,6 @@ using FileReaderLibrary.Enums;
 using FileReaderLibrary.Interfaces;
 using FileReaderLibrary.Readers;
 using FileReaderLibrary.Validations;
-using Microsoft.VisualBasic.FileIO;
 
 namespace FileReaderLibrary;
 
@@ -14,8 +13,11 @@ public class FileReaderBuilder
 {
     private IFileValidator? _validator;
     private IEncryptionAlgorithm? _encryptionAlgorithm;
+    private ISecurityContext? _securityContext;
+    private string _role = string.Empty;
     private EFileType _fileType = EFileType.Text;
     private static readonly HashSet<EFileType> EncryptionSupportedTypes = new() { EFileType.Text };
+    private static readonly HashSet<EFileType> SecuritySupportedTypes = new() { EFileType.Xml };
 
     /// <summary>
     /// Adds an extra <see cref="IFileValidator"/> to run in addition to the default validators.
@@ -37,7 +39,20 @@ public class FileReaderBuilder
     {
         _encryptionAlgorithm = encryptionAlgorithm;
         return this;
-    }   
+    }
+
+    /// <summary>
+    /// Sets the security context and role for role-based access control. This is optional and can be set if the file reading requires security checks.
+    /// </summary>
+    /// <param name="securityContext">The security context to use.</param>
+    /// <param name="role">The role to use for access control.</param>
+    /// <returns>The current <see cref="FileReaderBuilder"/> instance.</returns>
+    public FileReaderBuilder WithSecurity(ISecurityContext securityContext, string role)
+    {
+        _securityContext = securityContext;
+        _role = role;
+        return this;
+    }
 
     /// <summary>
     /// Sets the file type for the reader. Currently, this is not used in the builder but can be extended in the future to support different file types.
@@ -69,6 +84,14 @@ public class FileReaderBuilder
                 throw new NotSupportedException(
                     $"Encrypted reading is not supported for '{_fileType}' files.");
             reader = new EncryptedFileReader(reader, _encryptionAlgorithm);
+        }
+
+        if (_securityContext is not null)
+        {
+            if (!SecuritySupportedTypes.Contains(_fileType))
+                throw new NotSupportedException(
+                    $"Role-based security is not supported for '{_fileType}' files.");
+            reader = new SecureFileReader(reader, _securityContext, _role);
         }
 
         var validators = new List<IFileValidator>

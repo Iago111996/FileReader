@@ -7,18 +7,20 @@ namespace FileReaderLibrary.Encryption;
 /// </summary>
 public class ReverseEncryptionAlgorithm : IEncryptionAlgorithm
 {
-    /// <summary>
-    /// Decrypts the given encrypted content by reversing the string back to its original form.
-    /// </summary>
-    /// <param name="encryptedContent">The content to decrypt.</param>
-    /// <returns>The decrypted content.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when the encrypted content is null.</exception>
+    /// <inheritdoc />
+    public string Encrypt(string plainContent)
+    {
+        ArgumentNullException.ThrowIfNull(plainContent);
+
+        char[] charArray = plainContent.ToCharArray();
+        Array.Reverse(charArray);
+        return new string(charArray);
+    }
+
+    /// <inheritdoc />
     public string Decrypt(string encryptedContent)
     {
-        if (encryptedContent == null)
-        {
-            throw new ArgumentNullException(nameof(encryptedContent));
-        }
+        ArgumentNullException.ThrowIfNull(encryptedContent);
 
         char[] charArray = encryptedContent.ToCharArray();
         Array.Reverse(charArray);
