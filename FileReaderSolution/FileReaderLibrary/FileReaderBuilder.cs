@@ -76,9 +76,15 @@ public class FileReaderBuilder
         {
             reader = new XmlParserReader(
                 new EncryptedFileReader(
-                    new TextFileReader(),         
-                    _encryptionAlgorithm));       
-                                                  
+                    new TextFileReader(),
+                    _encryptionAlgorithm));
+        }
+        else if (_fileType == EFileType.Json && _encryptionAlgorithm is not null)
+        {
+            reader = new JsonParserReader(
+                new EncryptedFileReader(
+                    new TextFileReader(),
+                    _encryptionAlgorithm));
         }
         else
         {
